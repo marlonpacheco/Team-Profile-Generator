@@ -21,7 +21,9 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-function newMember() {
+
+createTeam()
+function createTeam() {
     inquirer.prompt([
         {
             type: "list",
@@ -30,38 +32,60 @@ function newMember() {
             name: "role"
         }
     ])
-    .then(response =>{
-        if (response.role === "Manager"){
-            otherInfo = "Office Number"
-        } else if (response.role = "Engineer"){
-            otherInfo = "GitHub Username"
-        } else if (response.role = "Intern"){
-            otherInfo = "School"
-        }
-        inquirer.prompt([
-            {
-                type: "input",
-                message: "Member Name:",
-                name: "name",
-            },
-            {
-                type: "input",
-                message: "Member ID:",
-                name: "id",
-            },
-            {
-                type: "input",
-                message: "Member Email:",
-                name: "email",
-            },
-            {
-                type: "input",
-                message: `Enter ${otherInfo}`,
-                name: "otherInfo",
-            },
-        ])
-    })
+        .then(response => {
+            let role = response.role
+            if (role === "Manager") {
+                otherInfo = "Office Number"
+            } else if (role = "Engineer") {
+                otherInfo = "GitHub Username"
+            } else if (role = "Intern") {
+                otherInfo = "School"
+            }
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "Member Name:",
+                    name: "name",
+                },
+                {
+                    type: "input",
+                    message: "Member ID:",
+                    name: "id",
+                },
+                {
+                    type: "input",
+                    message: "Member Email:",
+                    name: "email",
+                },
+                {
+                    type: "input",
+                    message: `Enter ${otherInfo}`,
+                    name: "otherInfo",
+                },
+                {
+                    type: "list",
+                    message: "Add another member?",
+                    choices: ["Yes", "No"],
+                    name: "addNew"
+                },
+            ])
+                .then(response => {
+                    console.log(response)
+                    if (role === "Manager"){
+                        newMember = new Manager (response.name, response.id, response.email, response.otherInfo)
+                    } else if (role === "Engineer"){
+                        newMember = new Engineer (response.name, response.id, response.email, response.otherInfo)
+                    } else if (role === "Intern"){
+                        newMember = new Intern (response.name, response.id, response.email, response.otherInfo)
+                    };
+                    if (response.addNew === "Yes"){
+                        createTeam()
+                    }
+            })
+        })
 }
+
+
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
