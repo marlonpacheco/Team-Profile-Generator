@@ -12,14 +12,56 @@ const render = require("./lib/htmlRenderer");
 
 
 
-const sample = new Manager("me", "#123", "email@email.com", "123456");
-const array = [sample]
-console.log(sample)
+// const sample = new Manager("me", "#123", "email@email.com", "123456");
+// const array = [sample]
+// console.log(sample)
 
-render(array)
+// render(array)
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
+function newMember() {
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "Choose role",
+            choices: ["Manager", "Engineer", "Intern"],
+            name: "role"
+        }
+    ])
+    .then(response =>{
+        if (response.role === "Manager"){
+            otherInfo = "Office Number"
+        } else if (response.role = "Engineer"){
+            otherInfo = "GitHub Username"
+        } else if (response.role = "Intern"){
+            otherInfo = "School"
+        }
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Member Name:",
+                name: "name",
+            },
+            {
+                type: "input",
+                message: "Member ID:",
+                name: "id",
+            },
+            {
+                type: "input",
+                message: "Member Email:",
+                name: "email",
+            },
+            {
+                type: "input",
+                message: `Enter ${otherInfo}`,
+                name: "otherInfo",
+            },
+        ])
+    })
+}
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
