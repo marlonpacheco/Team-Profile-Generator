@@ -27,6 +27,7 @@ function createTeam() {
             name: "role"
         }
     ])
+        //depending on the role chosen above, otherInfo will be renamed on the front end view
         .then(response => {
             let role = response.role
             if (role === "Manager") {
@@ -36,6 +37,8 @@ function createTeam() {
             } else if (role === "Intern") {
                 otherInfo = "School"
             }
+
+            //inquirer prompt for member details
             inquirer.prompt([
                 {
                     type: "input",
@@ -58,6 +61,7 @@ function createTeam() {
                     name: "otherInfo",
                 },
                 {
+                    //prompt to determine if createTeam function will loop or end
                     type: "list",
                     message: "Add another member?",
                     choices: ["Yes", "No"],
@@ -66,6 +70,7 @@ function createTeam() {
             ])
                 .then(response => {
                     console.log(response)
+                    // if statement determining the class of the received response
                     if (role === "Manager") {
                         newMember = new Manager(response.name, response.id, response.email, response.otherInfo)
                     } else if (role === "Engineer") {
@@ -74,7 +79,10 @@ function createTeam() {
                         newMember = new Intern(response.name, response.id, response.email, response.otherInfo)
                     };
 
+                    //pushes response to the array
                     teamMembers.push(newMember);
+
+                    //if statement to determine if adding a member (looping the function) or generating the html
                     if (response.addNew === "Yes") {
                         createTeam()
                     } createHTML()
@@ -82,7 +90,9 @@ function createTeam() {
         })
 }
 
+//function to generate html
 function createHTML() {
+    //if statement to check if directory exists
     if (!fs.existsSync(OUTPUT_DIR)) {
         fs.mkdirSync(OUTPUT_DIR)
     }
