@@ -1,4 +1,4 @@
-# Team Generator
+# Team Profile Generator
 ```
 This is a Javascript file to generate an Team HTML page using NodeJs.
 ```
