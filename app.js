@@ -57,7 +57,7 @@ function createTeam() {
                 },
                 {
                     type: "input",
-                    message: `Enter ${otherInfo}`,
+                    message: `Enter ${otherInfo}:`,
                     name: "otherInfo",
                 },
                 {
